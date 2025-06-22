@@ -1,0 +1,29 @@
+services:
+  api:
+    image: pgx-sqlc-gqlgen-template:api
+    container_name: api
+    user: ${MY_UID}:${MY_GID} # to make the host be able to modify or delete files created in the container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env
+    ports:
+      - 4000:4000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    container_name: pgx-sqlc-gqlgen-template-db
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    restart: always
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
