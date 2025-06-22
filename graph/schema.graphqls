@@ -1,0 +1,22 @@
+type User {
+  id: ID!
+  name: String!
+}
+
+type Todo {
+  id: ID!
+  title: String!
+  description: String
+  done: Boolean!
+  user: User!
+}
+
+input NewTodo {
+  title: String!
+  description: String
+  userId: String!
+}
+
+type Mutation {
+  createTodo(input: NewTodo!): Todo!
+}
